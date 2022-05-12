@@ -169,10 +169,10 @@ function Character({ data, handleDelete }) {
       case "una-weekly":
         toggleUnaWeekly();
         break;
-      case "pirate":
+      case "pirate-weekly":
         togglePirate();
         break;
-      case "guild":
+      case "guild-weekly":
         toggleGuild();
         break;
       default:
