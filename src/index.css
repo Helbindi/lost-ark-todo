@@ -1,13 +1,310 @@
+/* 
+    --- Table of Content ---
+    1. Navigation
+    2. Containers
+    3. Table Column Headers
+    4. Table Row
+    5. Table Styles
+    6. Form
+ */
+
 body {
+  background-color: #333;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.img {
+  width: 32px;
+}
+
+/* Navigation */
+.primary-nav {
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.nav-header {
+  margin: 0;
+  padding: 0.5em;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+
+  padding: 0;
+}
+
+.nav-item {
+  list-style: none;
+  cursor: pointer;
+
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.active {
+  color: rgb(255, 112, 112);
+}
+
+/* Container */
+.content-container {
+  overflow: hidden;
+  padding-bottom: 5em;
+}
+
+.todo-container {
+  overflow: auto;
+}
+
+.prompt-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 500px;
+  text-align: center;
+  margin: 1em auto;
+  padding: 1em;
+  background-color: rgb(255, 112, 112);
+  border-radius: 0.5em;
+}
+
+.prompt-img {
+  width: 150px;
+}
+
+.prompt-text {
+  color: white;
+}
+
+/* Table Column Headers */
+.character-header {
+  position: relative;
+}
+
+.header-name {
+  color: white;
+  text-align: center;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.header-img {
+  display: block;
+  width: 32px;
+  padding: 0.5em;
+  margin: 0 auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 3px 6px;
+  border-radius: 50%;
+
+  font-weight: 700;
+  background-color: hsl(0, 0%, 100%, 0.3);
+  cursor: pointer;
+  border: none;
+}
+
+.close-btn:hover {
+  background-color: rgb(255, 112, 112);
+}
+
+/* Table Row */
+.row-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  color: white;
+}
+
+input[type="checkbox"] {
+  display: flex;
+  margin: 0 auto;
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
+.row-img {
+  padding: 0.5em;
+}
+
+/* Table Styles */
+table {
+  padding: 1em;
+}
+
+td {
+  min-width: 100px;
+  padding: 0.5em;
+}
+
+th {
+  padding: 0.5em;
+}
+
+.filler-col {
+  background-color: rgb(255, 112, 112, 0.25);
+}
+
+.filler-img {
+  width: 90px !important;
+}
+
+tr[task-type="daily"] {
+  background-color: hsl(120, 100%, 25%, 0.25);
+}
+
+tr[task-type="weekly"] {
+  background-color: hsl(240, 100%, 50%, 0.25);
+}
+
+/* Form */
+.form-add {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: 250px;
+  margin: 1em auto;
+  color: white;
+}
+
+label {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+input[type="text"]:focus {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: rgb(255, 112, 112);
+}
+
+input[type="submit"] {
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 0.3em;
+  padding: 0.5em 1em;
+  margin: 1em auto;
+}
+
+input[type="submit"]:hover {
+  color: black;
+  background-color: rgb(255, 112, 112);
+}
+
+select[id="subclass"]:focus {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: rgb(255, 112, 112);
+  max-width: 90%;
+}
+
+/* Roster */
+.roster-container {
+  display: grid;
+  grid-template-areas:
+    "rapport-title rapport-input"
+    "island-title island-input"
+    "chaosGate-title chaosGate-input"
+    "fieldBoss-title fieldBoss-input";
+  gap: 1em;
+  align-items: center;
+
+  text-align: center;
+  background-color: rgb(255, 112, 112, 0.9);
+  border-radius: 1em;
+  margin: 4em auto;
+  padding: 1em;
+  max-width: 700px;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1em;
+
+  margin-left: 5em;
+}
+
+.rapport-title {
+  grid-area: rapport-title;
+}
+
+.rapport-input {
+  grid-area: rapport-input;
+}
+
+.chaosGate-title {
+  grid-area: chaosGate-title;
+}
+
+.chaosGate-input {
+  grid-area: chaosGate-input;
+}
+.fieldBoss-title {
+  grid-area: fieldBoss-title;
+}
+
+.fieldBoss-input {
+  grid-area: fieldBoss-input;
+}
+
+@media (min-width: 1000px) {
+  .primary-nav {
+    flex-direction: row;
+  }
+
+  .form-add {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .todo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .prompt-container {
+    flex-direction: row;
+    margin: 0 auto;
+    padding: 2em 2em 2em 2em;
+  }
+
+  .prompt-img {
+    width: 150px !important;
+  }
+
+  .img {
+    width: 50px;
+  }
+
+  .header-name {
+    font-size: 1.2rem;
+  }
 }
