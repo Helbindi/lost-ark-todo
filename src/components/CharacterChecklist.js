@@ -47,15 +47,22 @@ function CharacterChecklist() {
       name: inputs.name,
       subclass: inputs.subclass,
       // daily
-      CD: false,
-      GR: false,
-      unaDaily: false,
+      daily: {
+        dailyAll: false,
+        chaosDungeon: false,
+        guardianRaid: false,
+        unaDaily: false,
+        guildDaily: false,
+      },
       // weekly
-      AD: false,
-      AR: false,
-      unaWeekly: false,
-      pirate: false,
-      guild: false,
+      weekly: {
+        weeklyAll: false,
+        abyssDungeon: false,
+        abyssRaid: false,
+        unaWeekly: false,
+        pirateWeekly: false,
+        guildWeekly: false,
+      },
     };
 
     let exists = false;
@@ -165,6 +172,13 @@ function CharacterChecklist() {
             </thead>
 
             <tbody>
+              <tr id="daily-row" task-type="daily">
+                <td>
+                  <th className="row-header reset-type" scope="row">
+                    Daily
+                  </th>
+                </td>
+              </tr>
               <tr id="chaos-dungeon-row" task-type="daily">
                 <th className="row-header" scope="row">
                   <img
@@ -194,6 +208,25 @@ function CharacterChecklist() {
                   />
                   Una Daily
                 </th>
+              </tr>
+
+              <tr id="guild-daily-row" task-type="daily">
+                <th className="row-header" scope="row">
+                  <img
+                    className="row-img img"
+                    src="/assets/guild-icon.png"
+                    alt=""
+                  />
+                  Guild Log-in
+                </th>
+              </tr>
+
+              <tr id="weekly-row" task-type="weekly">
+                <td>
+                  <th className="row-header reset-type" scope="row">
+                    Weekly
+                  </th>
+                </td>
               </tr>
               <tr id="abyss-dungeon-row" task-type="weekly">
                 <th className="row-header" scope="row">

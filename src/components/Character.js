@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
+import "../index.css";
 
 function Character({ data, handleDelete }) {
   const [todo, setTodo] = useState(data);
@@ -11,17 +12,62 @@ function Character({ data, handleDelete }) {
     const exist = document.getElementById(todo.name);
     if (!exist) {
       // Create table column for specific character
-      createHeader(todo.name, todo.subclass);
-      createRowCell(todo.CD, "chaos-dungeon", todo.name);
-      createRowCell(todo.GR, "guardian-raid", todo.name);
-      createRowCell(todo.unaDaily, "una-daily", todo.name);
-      createRowCell(todo.AD, "abyss-dungeon", todo.name);
-      createRowCell(todo.AR, "abyss-raid", todo.name);
-      createRowCell(todo.unaWeekly, "una-weekly", todo.name);
-      createRowCell(todo.pirate, "pirate-weekly", todo.name);
-      createRowCell(todo.guild, "guild-weekly", todo.name);
+      createColumn();
+    } else {
+      updateColumn();
     }
-  }, []);
+  }, [todo]);
+
+  function updateColumn() {
+    console.log("update column " + todo.name);
+    const col = document.getElementsByTagName("input");
+    let inputs = [];
+    for (let item of col) {
+      if (item.id === todo.name) {
+        inputs.push(item);
+      }
+    }
+
+    for (let input of inputs) {
+      const reset = input.getAttribute("reset-type");
+      if (reset === "daily") {
+        if (todo.daily.hasOwnProperty(input.name)) {
+          input.checked = todo.daily[input.name];
+        }
+      }
+
+      if (reset === "weekly") {
+        if (todo.weekly.hasOwnProperty(input.name)) {
+          input.checked = todo.weekly[input.name];
+        }
+      }
+    }
+  }
+
+  function createColumn() {
+    createHeader(todo.name, todo.subclass);
+    createRowCell(todo.daily.dailyAll, "dailyAll", todo.name, "daily");
+    createRowCell(todo.daily.chaosDungeon, "chaosDungeon", todo.name, "daily");
+    createRowCell(todo.daily.guardianRaid, "guardianRaid", todo.name, "daily");
+    createRowCell(todo.daily.unaDaily, "unaDaily", todo.name, "daily");
+    createRowCell(todo.daily.guildDaily, "guildDaily", todo.name, "daily");
+    createRowCell(todo.weekly.weeklyAll, "weeklyAll", todo.name, "weekly");
+    createRowCell(
+      todo.weekly.abyssDungeon,
+      "abyssDungeon",
+      todo.name,
+      "weekly"
+    );
+    createRowCell(todo.weekly.abyssRaid, "abyssRaid", todo.name, "weekly");
+    createRowCell(todo.weekly.unaWeekly, "unaWeekly", todo.name, "weekly");
+    createRowCell(
+      todo.weekly.pirateWeekly,
+      "pirateWeekly",
+      todo.name,
+      "weekly"
+    );
+    createRowCell(todo.weekly.guildWeekly, "guildWeekly", todo.name, "weekly");
+  }
 
   function createHeader(name, subclass) {
     const headers = document.getElementById("table-col");
@@ -54,81 +100,131 @@ function Character({ data, handleDelete }) {
     headers.append(newHeader);
   }
 
-  function createRowCell(value, type, name) {
+  function createRowCell(value, type, name, reset) {
+    const daily_row = document.getElementById("daily-row");
     const cd_row = document.getElementById("chaos-dungeon-row");
     const gr_row = document.getElementById("guardian-raid-row");
     const unaD_row = document.getElementById("una-daily-row");
+    const guildD_row = document.getElementById("guild-daily-row");
+    const weekly_row = document.getElementById("weekly-row");
     const ad_row = document.getElementById("abyss-dungeon-row");
     const ar_row = document.getElementById("abyss-raid-row");
     const unaW_row = document.getElementById("una-weekly-row");
     const pirate_row = document.getElementById("pirate-weekly-row");
-    const guild_row = document.getElementById("guild-weekly-row");
+    const guildW_row = document.getElementById("guild-weekly-row");
     const newCell = document.createElement("td");
     newCell.id = name;
 
     // Append Data Cells to Specific Rows
     switch (type) {
-      case "chaos-dungeon": {
+      case "dailyAll": {
         newCell.classList.add(`${type}-cell`);
-        const input = checkedInput(type, value, name);
+        newCell.setAttribute("cell-type", "daily");
+        const input = checkedInput(type, value, name, reset);
+
+        const div = document.createElement("div");
+        div.className = "toggle-all";
+        const p = document.createElement("p");
+        p.textContent = "Toggle All";
+        div.append(p);
+        div.append(input);
+        newCell.append(div);
+        daily_row.append(newCell);
+        break;
+      }
+      case "weeklyAll": {
+        newCell.classList.add(`${type}-cell`);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
+
+        const div = document.createElement("div");
+        div.className = "toggle-all";
+        const p = document.createElement("p");
+        p.textContent = "Toggle All";
+        div.append(p);
+        div.append(input);
+        newCell.append(div);
+        weekly_row.append(newCell);
+        break;
+      }
+      case "chaosDungeon": {
+        newCell.classList.add(`${type}-cell`);
+        newCell.setAttribute("cell-type", "daily");
+        const input = checkedInput(type, value, name, reset);
 
         newCell.append(input);
         cd_row.append(newCell);
         break;
       }
-      case "guardian-raid": {
+      case "guardianRaid": {
         newCell.classList.add(`${type}-cell`);
-        const input = checkedInput(type, value, name);
+        newCell.setAttribute("cell-type", "daily");
+        const input = checkedInput(type, value, name, reset);
 
         newCell.append(input);
         gr_row.append(newCell);
         break;
       }
-      case "una-daily": {
+      case "unaDaily": {
         newCell.classList.add(`${type}-cell`);
-        const input = checkedInput(type, value, name);
+        newCell.setAttribute("cell-type", "daily");
+        const input = checkedInput(type, value, name, reset);
 
         newCell.append(input);
         unaD_row.append(newCell);
         break;
       }
-      case "abyss-dungeon": {
+      case "guildDaily": {
         newCell.classList.add(`${type}-cell`);
-        const input = checkedInput(type, value, name);
+        newCell.setAttribute("cell-type", "daily");
+        const input = checkedInput(type, value, name, reset);
+
+        newCell.append(input);
+        guildD_row.append(newCell);
+        break;
+      }
+      case "abyssDungeon": {
+        newCell.classList.add(`${type}-cell`);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
         newCell.append(input);
         ad_row.append(newCell);
         break;
       }
-      case "abyss-raid": {
+      case "abyssRaid": {
         newCell.classList.add(`${type}-cell`);
-        const input = checkedInput(type, value, name);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
 
         newCell.append(input);
         ar_row.append(newCell);
         break;
       }
-      case "una-weekly": {
+      case "unaWeekly": {
         newCell.classList.add(`${type}-cell`);
-        const input = checkedInput(type, value, name);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
 
         newCell.append(input);
         unaW_row.append(newCell);
         break;
       }
-      case "pirate-weekly": {
+      case "pirateWeekly": {
         newCell.classList.add(`${type}-cell`);
-        const input = checkedInput(type, value, name);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
 
         newCell.append(input);
         pirate_row.append(newCell);
         break;
       }
-      case "guild-weekly": {
+      case "guildWeekly": {
         newCell.classList.add(`${type}-cell`);
-        const input = checkedInput(type, value, name);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
 
         newCell.append(input);
-        guild_row.append(newCell);
+        guildW_row.append(newCell);
         break;
       }
       default:
@@ -136,12 +232,13 @@ function Character({ data, handleDelete }) {
     }
   }
 
-  function checkedInput(type, value, name) {
+  function checkedInput(type, value, name, reset) {
     const input = document.createElement("input");
     input.type = "checkbox";
     input.name = type;
     input.id = name;
-    input.checked = value;
+    input.setAttribute("reset-type", reset);
+    input.defaultChecked = value;
     input.onchange = handleChange;
 
     return input;
@@ -151,40 +248,84 @@ function Character({ data, handleDelete }) {
   const handleChange = (e) => {
     const { name } = e.target;
     switch (name) {
-      case "chaos-dungeon":
+      case "dailyAll":
+        toggleDaily();
+        break;
+      case "weeklyAll":
+        toggleWeekly();
+        break;
+      case "chaosDungeon":
         toggleCD();
         break;
-      case "guardian-raid":
+      case "guardianRaid":
         toggleGR();
         break;
-      case "abyss-dungeon":
+      case "abyssDungeon":
         toggleAD();
         break;
-      case "abyss-raid":
+      case "abyssRaid":
         toggleAR();
         break;
-      case "una-daily":
+      case "unaDaily":
         toggleUnaDaily();
         break;
-      case "una-weekly":
+      case "guildDaily":
+        toggleGuildDaily();
+        break;
+      case "unaWeekly":
         toggleUnaWeekly();
         break;
-      case "pirate-weekly":
+      case "pirateWeekly":
         togglePirate();
         break;
-      case "guild-weekly":
-        toggleGuild();
+      case "guildWeekly":
+        toggleGuildWeekly();
         break;
       default:
         return;
     }
   };
 
+  const toggleDaily = () => {
+    const prevTodo = todoRef.current;
+    const reset = {
+      dailyAll: !prevTodo.daily.dailyAll,
+      chaosDungeon: !prevTodo.daily.dailyAll,
+      guardianRaid: !prevTodo.daily.dailyAll,
+      unaDaily: !prevTodo.daily.dailyAll,
+      guildDaily: !prevTodo.daily.dailyAll,
+    };
+    const updateAll = { ...prevTodo, daily: reset };
+
+    todoRef.current = updateAll;
+    setTodo(updateAll);
+  };
+
+  const toggleWeekly = () => {
+    const prevTodo = todoRef.current;
+    const reset = {
+      weeklyAll: !prevTodo.weekly.weeklyAll,
+      abyssDungeon: !prevTodo.weekly.weeklyAll,
+      abyssRaid: !prevTodo.weekly.weeklyAll,
+      unaWeekly: !prevTodo.weekly.weeklyAll,
+      pirateWeekly: !prevTodo.weekly.weeklyAll,
+      guildWeekly: !prevTodo.weekly.weeklyAll,
+    };
+    const updateAll = { ...prevTodo, weekly: reset };
+
+    todoRef.current = updateAll;
+    setTodo(updateAll);
+  };
+
   const toggleCD = () => {
     // Get current ref for todo State
     const prevTodo = todoRef.current;
     // Create new todo Object using ref
-    const updateTodo = { ...prevTodo, CD: !prevTodo.CD };
+    const daily = {
+      ...prevTodo.daily,
+      chaosDungeon: !prevTodo.daily.chaosDungeon,
+    };
+    const updateTodo = { ...prevTodo, daily: daily };
     // Update ref and todo state with new Object
     todoRef.current = updateTodo;
     setTodo(updateTodo);
@@ -192,49 +333,76 @@ function Character({ data, handleDelete }) {
 
   const toggleGR = () => {
     const prevTodo = todoRef.current;
-    const updateTodo = { ...prevTodo, GR: !prevTodo.GR };
+    const daily = {
+      ...prevTodo.daily,
+      guardianRaid: !prevTodo.daily.guardianRaid,
+    };
+    const updateTodo = { ...prevTodo, daily: daily };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
   };
 
   const toggleAD = () => {
     const prevTodo = todoRef.current;
-    const updateTodo = { ...prevTodo, AD: !prevTodo.AD };
+    const weekly = {
+      ...prevTodo.daily,
+      abyssDungeon: !prevTodo.weekly.abyssDungeon,
+    };
+    const updateTodo = { ...prevTodo, weekly: weekly };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
   };
 
   const toggleAR = () => {
     const prevTodo = todoRef.current;
-    const updateTodo = { ...prevTodo, AR: !prevTodo.AR };
+    const weekly = { ...prevTodo.daily, abyssRaid: !prevTodo.weekly.abyssRaid };
+    const updateTodo = { ...prevTodo, weekly: weekly };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
   };
 
   const toggleUnaDaily = () => {
     const prevTodo = todoRef.current;
-    const updateTodo = { ...prevTodo, unaDaily: !prevTodo.unaDaily };
+    const daily = { ...prevTodo.daily, unaDaily: !prevTodo.daily.unaDaily };
+    const updateTodo = { ...prevTodo, daily: daily };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
   };
 
   const toggleUnaWeekly = () => {
     const prevTodo = todoRef.current;
-    const updateTodo = { ...prevTodo, unaWeekly: !prevTodo.unaWeekly };
+    const weekly = { ...prevTodo.daily, unaWeekly: !prevTodo.weekly.unaWeekly };
+    const updateTodo = { ...prevTodo, weekly: weekly };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
   };
 
   const togglePirate = () => {
     const prevTodo = todoRef.current;
-    const updateTodo = { ...prevTodo, pirate: !prevTodo.pirate };
+    const weekly = {
+      ...prevTodo.daily,
+      pirateWeekly: !prevTodo.weekly.pirateWeekly,
+    };
+    const updateTodo = { ...prevTodo, weekly: weekly };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
   };
 
-  const toggleGuild = () => {
+  const toggleGuildDaily = () => {
     const prevTodo = todoRef.current;
-    const updateTodo = { ...prevTodo, guild: !prevTodo.guild };
+    const daily = { ...prevTodo.daily, guildDaily: !prevTodo.daily.guildDaily };
+    const updateTodo = { ...prevTodo, daily: daily };
+    todoRef.current = updateTodo;
+    setTodo(updateTodo);
+  };
+
+  const toggleGuildWeekly = () => {
+    const prevTodo = todoRef.current;
+    const weekly = {
+      ...prevTodo.daily,
+      guildWeekly: !prevTodo.weekly.guildWeekly,
+    };
+    const updateTodo = { ...prevTodo, weekly: weekly };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
   };

@@ -132,8 +132,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   color: white;
+}
+
+.reset-type {
+  font-size: 1.5rem;
+  text-transform: uppercase;
 }
 
 input[type="checkbox"] {
@@ -169,12 +174,57 @@ th {
   width: 90px !important;
 }
 
+tr[id="daily-row"] {
+  background-color: hsl(120, 100%, 25%, 0.5) !important;
+}
+
 tr[task-type="daily"] {
   background-color: hsl(120, 100%, 25%, 0.25);
 }
 
+tr[id="weekly-row"] {
+  background-color: hsl(240, 100%, 50%, 0.5) !important;
+}
+
 tr[task-type="weekly"] {
   background-color: hsl(240, 100%, 50%, 0.25);
+}
+
+td[cell-type="daily"]:hover {
+  background-color: hsl(120, 100%, 25%, 0.5);
+}
+
+td[cell-type="weekly"]:hover {
+  background-color: hsl(240, 100%, 50%, 0.5);
+}
+
+.toggle-all {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+
+  color: white;
+  font-weight: 700;
+}
+
+.toggle-all p {
+  margin: 0;
+}
+
+.daily-cell {
+  padding: 1em;
+}
+
+.daily-cell p {
+  margin: 0;
+  padding-bottom: 1em;
+}
+
+.weekly-cell p {
+  margin: 0;
+  padding-bottom: 1em;
 }
 
 /* Form */
@@ -245,9 +295,10 @@ select[id="subclass"]:focus {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: 1em;
 
+  gap: 1em;
   margin-left: 5em;
+  color: white;
 }
 
 .rapport-title {
