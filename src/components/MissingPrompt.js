@@ -6,7 +6,7 @@ function MissingPrompt() {
     <div className="prompt-container">
       <img
         className="prompt-img img"
-        src="/assets/mokoHuh.png"
+        src="https://firebasestorage.googleapis.com/v0/b/ninohuh-d7b3c.appspot.com/o/mokoHuh.png?alt=media"
         alt="mokokoHuh"
       />
       <h2 className="prompt-text">Please add chracters to track!</h2>

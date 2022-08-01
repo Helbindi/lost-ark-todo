@@ -4,6 +4,29 @@ import "../index.css";
 import MissingPrompt from "./MissingPrompt";
 
 function CharacterChecklist() {
+  const [defaultData, setDefaultData] = useState({
+    name: "default",
+    subclass: "default",
+    // daily
+    daily: {
+      dailyAll: false,
+      chaosDungeon: false,
+      guardianRaid: false,
+      unaDaily: false,
+      guildDaily: false,
+    },
+    // weekly
+    weekly: {
+      weeklyAll: false,
+      abyssDungeon: false,
+      argosRaid: false,
+      valtanRaid: false,
+      vykasRaid: false,
+      unaWeekly: false,
+      pirateWeekly: false,
+      guildWeekly: false,
+    },
+  });
   const [characters, setCharacters] = useState(() => {
     // Check if there are any local stored character data
     const localData = localStorage.getItem("characters");
@@ -15,7 +38,7 @@ function CharacterChecklist() {
   });
   const [inputs, setInputs] = useState({
     name: "",
-    subclass: "artillerist",
+    subclass: "arcanist",
   });
 
   let characterRef = useRef([]);
@@ -27,7 +50,50 @@ function CharacterChecklist() {
     checkEmpty();
     characterRef.current = characters;
     localStorage.setItem("characters", JSON.stringify(characters));
+    updateCharacters();
   }, [characters]);
+
+  useEffect(() => {
+    // compare local storage data with default data state for any differences. Update local storage if so.
+    checkDefault();
+  }, []);
+
+  function checkDefault() {
+    const localData = JSON.parse(localStorage.getItem("characters"));
+
+    for (const obj of localData) {
+      const objProp = Object.keys(obj);
+      const objDefault = Object.keys(defaultData);
+      const dailyProp = Object.keys(obj.daily);
+      const dailyDefault = Object.keys(defaultData.daily);
+      const weeklyProp = Object.keys(obj.weekly);
+      const weeklyDefault = Object.keys(defaultData.weekly);
+
+      objDefault.forEach((item) => {
+        if (!objProp.includes(item)) {
+          obj[item] = false;
+        }
+      });
+
+      dailyDefault.forEach((item) => {
+        if (!dailyProp.includes(item)) {
+          obj.daily[item] = false;
+        }
+      });
+
+      weeklyDefault.forEach((item) => {
+        if (!weeklyProp.includes(item)) {
+          obj.weekly[item] = false;
+        }
+      });
+    }
+    setCharacters(localData);
+  }
+
+  function updateCharacters() {
+    const localData = JSON.parse(localStorage.getItem("characters"));
+    setCharacters(localData);
+  }
 
   function checkEmpty() {
     characters.length === 0 ? setEmpty(true) : setEmpty(false);
@@ -44,25 +110,9 @@ function CharacterChecklist() {
   function handleSubmit(e) {
     // create new character object
     const newCharacter = {
+      ...defaultData,
       name: inputs.name,
       subclass: inputs.subclass,
-      // daily
-      daily: {
-        dailyAll: false,
-        chaosDungeon: false,
-        guardianRaid: false,
-        unaDaily: false,
-        guildDaily: false,
-      },
-      // weekly
-      weekly: {
-        weeklyAll: false,
-        abyssDungeon: false,
-        abyssRaid: false,
-        unaWeekly: false,
-        pirateWeekly: false,
-        guildWeekly: false,
-      },
     };
 
     let exists = false;
@@ -79,7 +129,6 @@ function CharacterChecklist() {
     } else {
       checkEmpty();
       setCharacters([...characters, newCharacter]);
-      setInputs({ name: "", subclass: "artillerist" });
     }
   }
 
@@ -113,6 +162,30 @@ function CharacterChecklist() {
     checkEmpty();
   }
 
+  const handleReset = (e) => {
+    const type = e.target.getAttribute("reset-type");
+    if (type === "daily") {
+      const daily = {
+        dailyAll: false,
+        chaosDungeon: false,
+        guardianRaid: false,
+        unaDaily: false,
+        guildDaily: false,
+      };
+    } else {
+      const weekly = {
+        weeklyAll: false,
+        abyssDungeon: false,
+        argosRaid: false,
+        valtanRaid: false,
+        vykasRaid: false,
+        unaWeekly: false,
+        pirateWeekly: false,
+        guildWeekly: false,
+      };
+    }
+  };
+
   return (
     <div className="content-container">
       <form className="form-add" onSubmit={handleSubmit}>
@@ -133,11 +206,13 @@ function CharacterChecklist() {
           value={inputs.subclass}
           onChange={handleSubClass}
         >
+          <option value="arcanist">Arcanist</option>
           <option value="artillerist">Artillerist</option>
           <option value="bard">Bard</option>
           <option value="berserker">Berserker</option>
           <option value="deadeye">Deadeye</option>
           <option value="deathblade">Deathblade</option>
+          <option value="destroyer">Destroyer</option>
           <option value="glaivier">Glaivier</option>
           <option value="gunlancer">Gunlancer</option>
           <option value="gunslinger">Gunslinger</option>
@@ -164,8 +239,8 @@ function CharacterChecklist() {
                 <th className="filler-col">
                   <img
                     className="filler-img img"
-                    src="https://firebasestorage.googleapis.com/v0/b/ninohuh-d7b3c.appspot.com/o/NinoHuh.png?alt=media"
-                    alt="NinoHuh"
+                    src="https://firebasestorage.googleapis.com/v0/b/ninohuh-d7b3c.appspot.com/o/mokoGood.png?alt=media"
+                    alt="mokoGood"
                   />
                 </th>
               </tr>
@@ -176,6 +251,13 @@ function CharacterChecklist() {
                 <td>
                   <th className="row-header reset-type" scope="row">
                     Daily
+                    {/* <button
+                      className="reset-btn"
+                      reset-type="daily"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </button> */}
                   </th>
                 </td>
               </tr>
@@ -225,6 +307,13 @@ function CharacterChecklist() {
                 <td>
                   <th className="row-header reset-type" scope="row">
                     Weekly
+                    {/* <button
+                      className="reset-btn"
+                      reset-type="weekly"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </button> */}
                   </th>
                 </td>
               </tr>
@@ -245,7 +334,27 @@ function CharacterChecklist() {
                     src="/assets/abyss-raid-icon.png"
                     alt=""
                   />
-                  Abyss Raid
+                  Argos
+                </th>
+              </tr>
+              <tr id="legion-valtan-row" task-type="weekly">
+                <th className="row-header" scope="row">
+                  <img
+                    className="row-img img"
+                    src="/assets/legion-raid-icon.png"
+                    alt=""
+                  />
+                  Valtan
+                </th>
+              </tr>
+              <tr id="legion-vykas-row" task-type="weekly">
+                <th className="row-header" scope="row">
+                  <img
+                    className="row-img img"
+                    src="/assets/legion-raid-icon.png"
+                    alt=""
+                  />
+                  Vykas
                 </th>
               </tr>
               <tr id="una-weekly-row" task-type="weekly">
@@ -282,6 +391,7 @@ function CharacterChecklist() {
               data={character}
               key={index}
               handleDelete={handleDelete}
+              updateCharacters={updateCharacters}
             />
           ))}
         </div>

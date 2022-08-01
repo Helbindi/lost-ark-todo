@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useEffect } from "react";
 import "../index.css";
 
-function Character({ data, handleDelete }) {
+function Character({ data, handleDelete, updateCharacters }) {
   const [todo, setTodo] = useState(data);
   let todoRef = useRef(data);
 
@@ -14,12 +14,12 @@ function Character({ data, handleDelete }) {
       // Create table column for specific character
       createColumn();
     } else {
+      // Update the table column whenever the todo state data is changed/updated.
       updateColumn();
     }
   }, [todo]);
 
   function updateColumn() {
-    console.log("update column " + todo.name);
     const col = document.getElementsByTagName("input");
     let inputs = [];
     for (let item of col) {
@@ -58,7 +58,9 @@ function Character({ data, handleDelete }) {
       todo.name,
       "weekly"
     );
-    createRowCell(todo.weekly.abyssRaid, "abyssRaid", todo.name, "weekly");
+    createRowCell(todo.weekly.argosRaid, "argosRaid", todo.name, "weekly");
+    createRowCell(todo.weekly.valtanRaid, "valtanRaid", todo.name, "weekly");
+    createRowCell(todo.weekly.vykasRaid, "vykasRaid", todo.name, "weekly");
     createRowCell(todo.weekly.unaWeekly, "unaWeekly", todo.name, "weekly");
     createRowCell(
       todo.weekly.pirateWeekly,
@@ -109,6 +111,8 @@ function Character({ data, handleDelete }) {
     const weekly_row = document.getElementById("weekly-row");
     const ad_row = document.getElementById("abyss-dungeon-row");
     const ar_row = document.getElementById("abyss-raid-row");
+    const valtan_row = document.getElementById("legion-valtan-row");
+    const vykas_row = document.getElementById("legion-vykas-row");
     const unaW_row = document.getElementById("una-weekly-row");
     const pirate_row = document.getElementById("pirate-weekly-row");
     const guildW_row = document.getElementById("guild-weekly-row");
@@ -191,13 +195,31 @@ function Character({ data, handleDelete }) {
         ad_row.append(newCell);
         break;
       }
-      case "abyssRaid": {
+      case "argosRaid": {
         newCell.classList.add(`${type}-cell`);
         newCell.setAttribute("cell-type", "weekly");
         const input = checkedInput(type, value, name, reset);
 
         newCell.append(input);
         ar_row.append(newCell);
+        break;
+      }
+      case "valtanRaid": {
+        newCell.classList.add(`${type}-cell`);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
+
+        newCell.append(input);
+        valtan_row.append(newCell);
+        break;
+      }
+      case "vykasRaid": {
+        newCell.classList.add(`${type}-cell`);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
+
+        newCell.append(input);
+        vykas_row.append(newCell);
         break;
       }
       case "unaWeekly": {
@@ -209,6 +231,7 @@ function Character({ data, handleDelete }) {
         unaW_row.append(newCell);
         break;
       }
+
       case "pirateWeekly": {
         newCell.classList.add(`${type}-cell`);
         newCell.setAttribute("cell-type", "weekly");
@@ -263,8 +286,14 @@ function Character({ data, handleDelete }) {
       case "abyssDungeon":
         toggleAD();
         break;
-      case "abyssRaid":
+      case "argosRaid":
         toggleAR();
+        break;
+      case "valtanRaid":
+        toggleValtan();
+        break;
+      case "vykasRaid":
+        toggleVykas();
         break;
       case "unaDaily":
         toggleUnaDaily();
@@ -306,7 +335,9 @@ function Character({ data, handleDelete }) {
     const reset = {
       weeklyAll: !prevTodo.weekly.weeklyAll,
       abyssDungeon: !prevTodo.weekly.weeklyAll,
-      abyssRaid: !prevTodo.weekly.weeklyAll,
+      argosRaid: !prevTodo.weekly.weeklyAll,
+      valtanRaid: !prevTodo.weekly.weeklyAll,
+      vykasRaid: !prevTodo.weekly.weeklyAll,
       unaWeekly: !prevTodo.weekly.weeklyAll,
       pirateWeekly: !prevTodo.weekly.weeklyAll,
       guildWeekly: !prevTodo.weekly.weeklyAll,
@@ -345,7 +376,7 @@ function Character({ data, handleDelete }) {
   const toggleAD = () => {
     const prevTodo = todoRef.current;
     const weekly = {
-      ...prevTodo.daily,
+      ...prevTodo.weekly,
       abyssDungeon: !prevTodo.weekly.abyssDungeon,
     };
     const updateTodo = { ...prevTodo, weekly: weekly };
@@ -355,7 +386,32 @@ function Character({ data, handleDelete }) {
 
   const toggleAR = () => {
     const prevTodo = todoRef.current;
-    const weekly = { ...prevTodo.daily, abyssRaid: !prevTodo.weekly.abyssRaid };
+    const weekly = {
+      ...prevTodo.weekly,
+      argosRaid: !prevTodo.weekly.argosRaid,
+    };
+    const updateTodo = { ...prevTodo, weekly: weekly };
+    todoRef.current = updateTodo;
+    setTodo(updateTodo);
+  };
+
+  const toggleValtan = () => {
+    const prevTodo = todoRef.current;
+    const weekly = {
+      ...prevTodo.weekly,
+      valtanRaid: !prevTodo.weekly.valtanRaid,
+    };
+    const updateTodo = { ...prevTodo, weekly: weekly };
+    todoRef.current = updateTodo;
+    setTodo(updateTodo);
+  };
+
+  const toggleVykas = () => {
+    const prevTodo = todoRef.current;
+    const weekly = {
+      ...prevTodo.weekly,
+      vykasRaid: !prevTodo.weekly.vykasRaid,
+    };
     const updateTodo = { ...prevTodo, weekly: weekly };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
@@ -371,7 +427,10 @@ function Character({ data, handleDelete }) {
 
   const toggleUnaWeekly = () => {
     const prevTodo = todoRef.current;
-    const weekly = { ...prevTodo.daily, unaWeekly: !prevTodo.weekly.unaWeekly };
+    const weekly = {
+      ...prevTodo.weekly,
+      unaWeekly: !prevTodo.weekly.unaWeekly,
+    };
     const updateTodo = { ...prevTodo, weekly: weekly };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
@@ -380,7 +439,7 @@ function Character({ data, handleDelete }) {
   const togglePirate = () => {
     const prevTodo = todoRef.current;
     const weekly = {
-      ...prevTodo.daily,
+      ...prevTodo.weekly,
       pirateWeekly: !prevTodo.weekly.pirateWeekly,
     };
     const updateTodo = { ...prevTodo, weekly: weekly };
@@ -390,7 +449,10 @@ function Character({ data, handleDelete }) {
 
   const toggleGuildDaily = () => {
     const prevTodo = todoRef.current;
-    const daily = { ...prevTodo.daily, guildDaily: !prevTodo.daily.guildDaily };
+    const daily = {
+      ...prevTodo.daily,
+      guildDaily: !prevTodo.daily.guildDaily,
+    };
     const updateTodo = { ...prevTodo, daily: daily };
     todoRef.current = updateTodo;
     setTodo(updateTodo);
@@ -399,7 +461,7 @@ function Character({ data, handleDelete }) {
   const toggleGuildWeekly = () => {
     const prevTodo = todoRef.current;
     const weekly = {
-      ...prevTodo.daily,
+      ...prevTodo.weekly,
       guildWeekly: !prevTodo.weekly.guildWeekly,
     };
     const updateTodo = { ...prevTodo, weekly: weekly };
@@ -414,6 +476,7 @@ function Character({ data, handleDelete }) {
       character.name === todo.name ? { ...character, ...todo } : character
     );
     localStorage.setItem("characters", JSON.stringify(updated));
+    updateCharacters();
   }
 
   useEffect(() => {

@@ -7,16 +7,16 @@ function Navigation({ active, handleToggle }) {
       <ul className="nav-list">
         <li
           className={`nav-item ${active ? "active" : ""}`}
-          onClick={handleToggle}
+          // onClick={handleToggle}
         >
           Characters
         </li>
-        <li
+        {/* <li
           className={`nav-item ${!active ? "active" : ""}`}
           onClick={handleToggle}
         >
           Roster
-        </li>
+        </li> */}
       </ul>
     </nav>
   );
