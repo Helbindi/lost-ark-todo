@@ -61,6 +61,8 @@ function Character({ data, handleDelete, updateCharacters }) {
     createRowCell(todo.weekly.argosRaid, "argosRaid", todo.name, "weekly");
     createRowCell(todo.weekly.valtanRaid, "valtanRaid", todo.name, "weekly");
     createRowCell(todo.weekly.vykasRaid, "vykasRaid", todo.name, "weekly");
+    createRowCell(todo.weekly.kakulRaid, "kakulRaid", todo.name, "weekly");
+    createRowCell(todo.weekly.brelRaid, "brelRaid", todo.name, "weekly");
     createRowCell(todo.weekly.unaWeekly, "unaWeekly", todo.name, "weekly");
     createRowCell(
       todo.weekly.pirateWeekly,
@@ -113,6 +115,8 @@ function Character({ data, handleDelete, updateCharacters }) {
     const ar_row = document.getElementById("abyss-raid-row");
     const valtan_row = document.getElementById("legion-valtan-row");
     const vykas_row = document.getElementById("legion-vykas-row");
+    const kakul_row = document.getElementById("legion-kakul-row");
+    const brel_row = document.getElementById("legion-brel-row");
     const unaW_row = document.getElementById("una-weekly-row");
     const pirate_row = document.getElementById("pirate-weekly-row");
     const guildW_row = document.getElementById("guild-weekly-row");
@@ -222,6 +226,24 @@ function Character({ data, handleDelete, updateCharacters }) {
         vykas_row.append(newCell);
         break;
       }
+      case "kakulRaid": {
+        newCell.classList.add(`${type}-cell`);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
+
+        newCell.append(input);
+        kakul_row.append(newCell);
+        break;
+      }
+      case "brelRaid": {
+        newCell.classList.add(`${type}-cell`);
+        newCell.setAttribute("cell-type", "weekly");
+        const input = checkedInput(type, value, name, reset);
+
+        newCell.append(input);
+        brel_row.append(newCell);
+        break;
+      }
       case "unaWeekly": {
         newCell.classList.add(`${type}-cell`);
         newCell.setAttribute("cell-type", "weekly");
@@ -295,6 +317,12 @@ function Character({ data, handleDelete, updateCharacters }) {
       case "vykasRaid":
         toggleVykas();
         break;
+      case "kakulRaid":
+        toggleKakul();
+        break;
+      case "brelRaid":
+        toggleBrel();
+        break;
       case "unaDaily":
         toggleUnaDaily();
         break;
@@ -338,6 +366,8 @@ function Character({ data, handleDelete, updateCharacters }) {
       argosRaid: !prevTodo.weekly.weeklyAll,
       valtanRaid: !prevTodo.weekly.weeklyAll,
       vykasRaid: !prevTodo.weekly.weeklyAll,
+      kakulRaid: !prevTodo.weekly.weeklyAll,
+      brelRaid: !prevTodo.weekly.weeklyAll,
       unaWeekly: !prevTodo.weekly.weeklyAll,
       pirateWeekly: !prevTodo.weekly.weeklyAll,
       guildWeekly: !prevTodo.weekly.weeklyAll,
@@ -411,6 +441,28 @@ function Character({ data, handleDelete, updateCharacters }) {
     const weekly = {
       ...prevTodo.weekly,
       vykasRaid: !prevTodo.weekly.vykasRaid,
+    };
+    const updateTodo = { ...prevTodo, weekly: weekly };
+    todoRef.current = updateTodo;
+    setTodo(updateTodo);
+  };
+
+  const toggleKakul = () => {
+    const prevTodo = todoRef.current;
+    const weekly = {
+      ...prevTodo.weekly,
+      kakulRaid: !prevTodo.weekly.kakulRaid,
+    };
+    const updateTodo = { ...prevTodo, weekly: weekly };
+    todoRef.current = updateTodo;
+    setTodo(updateTodo);
+  };
+
+  const toggleBrel = () => {
+    const prevTodo = todoRef.current;
+    const weekly = {
+      ...prevTodo.weekly,
+      brelRaid: !prevTodo.weekly.brelRaid,
     };
     const updateTodo = { ...prevTodo, weekly: weekly };
     todoRef.current = updateTodo;

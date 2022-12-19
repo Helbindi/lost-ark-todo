@@ -22,6 +22,7 @@ function CharacterChecklist() {
       argosRaid: false,
       valtanRaid: false,
       vykasRaid: false,
+      kakulRaid: false,
       unaWeekly: false,
       pirateWeekly: false,
       guildWeekly: false,
@@ -179,6 +180,7 @@ function CharacterChecklist() {
         argosRaid: false,
         valtanRaid: false,
         vykasRaid: false,
+        kakulRaid: false,
         unaWeekly: false,
         pirateWeekly: false,
         guildWeekly: false,
@@ -207,6 +209,7 @@ function CharacterChecklist() {
           onChange={handleSubClass}
         >
           <option value="arcanist">Arcanist</option>
+          <option value="artist">Artist</option>
           <option value="artillerist">Artillerist</option>
           <option value="bard">Bard</option>
           <option value="berserker">Berserker</option>
@@ -216,13 +219,16 @@ function CharacterChecklist() {
           <option value="glaivier">Glaivier</option>
           <option value="gunlancer">Gunlancer</option>
           <option value="gunslinger">Gunslinger</option>
+          <option value="machinist">Machinist</option>
           <option value="paladin">Paladin</option>
+          <option value="reaper">Reaper</option>
           <option value="scrapper">Scrapper</option>
           <option value="shadowhunter">Shadowhunter</option>
           <option value="sharpshooter">Sharpshooter</option>
           <option value="sorceress">Sorceress</option>
           <option value="soulfist">Soulfist</option>
           <option value="striker">Striker</option>
+          <option value="summoner">Summoner</option>
           <option value="wardancer">Wardancer</option>
         </select>
 
@@ -355,6 +361,26 @@ function CharacterChecklist() {
                     alt=""
                   />
                   Vykas
+                </th>
+              </tr>
+              <tr id="legion-kakul-row" task-type="weekly">
+                <th className="row-header" scope="row">
+                  <img
+                    className="row-img img"
+                    src="/assets/legion-raid-icon.png"
+                    alt=""
+                  />
+                  Kakul-Saydon
+                </th>
+              </tr>
+              <tr id="legion-brel-row" task-type="weekly">
+                <th className="row-header" scope="row">
+                  <img
+                    className="row-img img"
+                    src="/assets/legion-raid-icon.png"
+                    alt=""
+                  />
+                  Brelshaza
                 </th>
               </tr>
               <tr id="una-weekly-row" task-type="weekly">
